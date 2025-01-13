@@ -17,7 +17,7 @@ public class CurrencyConversionService {
     public ConversionResponse convertCurrency(ConversionRequest conversionRequest) {
         ExchangeResponse rates = rateFeignClient.getExchangeRate(conversionRequest.getFrom());
 
-//        if (rates.containsKey(conversionRequest.getTo())) {
+
             Double conversionRate = rates.getRates().get(conversionRequest.getTo());
             if (conversionRate == null) {
                 throw new RuntimeException("Conversion rate not available for " + conversionRequest.getTo());
@@ -25,9 +25,6 @@ public class CurrencyConversionService {
 
             double convertedAmount = conversionRequest.getAmount() * conversionRate;
             return new ConversionResponse(conversionRequest.getFrom(), conversionRequest.getTo(), conversionRequest.getAmount(), convertedAmount);
-//        }else{
-//            throw new RuntimeException("Specified currency not available" + conversionRequest.getTo());
-//        }
     }
 
 }
